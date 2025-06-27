@@ -1,1 +1,137 @@
-/* You can add global styles to this file, and also import other style files */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+body {
+  position: relative;
+}
+
+.mat-mdc-form-field.mat-mdc-form-field.mat-mdc-form-field.mat-mdc-form-field.mat-mdc-form-field
+  .mdc-notched-outline__notch {
+  border-right-style: hidden;
+}
+
+.mat-mdc-input-element {
+  box-shadow: none !important;
+}
+
+.sticky {
+  position: sticky !important;
+}
+
+.bg-dialog {
+  background: #edeaf7;
+}
+
+[type='text'],
+[type='email'],
+[type='url'],
+[type='password'],
+[type='number'],
+[type='date'],
+[type='datetime-local'],
+[type='month'],
+[type='search'],
+[type='tel'],
+[type='time'],
+[type='week'],
+[multiple],
+textarea,
+select {
+  padding: 0;
+  border: none;
+  background: white;
+}
+
+::-webkit-scrollbar {
+  width: 8px !important;
+  height: 8px !important;
+}
+
+::-webkit-scrollbar-track {
+  background: #f7f8ff;
+  border-radius: 8px !important;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #9c9da1;
+  border-radius: 8px;
+}
+html, body { height: 100%; overflow: hidden;}
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+// Sobrescribe la fuente de Angular Material
+.mat-mdc-typography,
+.mat-mdc-form-field,
+.mat-mdc-button,
+.mat-mdc-input-element,
+.mat-mdc-select,
+.mat-mdc-option,
+.mat-mdc-menu-item,
+.mat-mdc-dialog-container,
+.mat-mdc-snack-bar-container,
+.mat-mdc-card,
+.mat-mdc-table,
+.mat-mdc-paginator,
+.mat-mdc-list,
+.mat-mdc-chip,
+.mat-mdc-tooltip,
+.mat-mdc-tab,
+.mat-mdc-tab-label,
+.mat-mdc-tab-link,
+.mat-mdc-expansion-panel,
+.mat-mdc-stepper,
+.mat-mdc-autocomplete-panel,
+.mat-mdc-slide-toggle,
+.mat-mdc-slider,
+.mat-mdc-progress-bar,
+.mat-mdc-progress-spinner,
+.mat-mdc-checkbox,
+.mat-mdc-radio-button,
+.mat-mdc-radio-group,
+.mat-mdc-toolbar,
+.mat-mdc-sidenav,
+.mat-mdc-menu,
+.mat-mdc-tree,
+.mat-mdc-badge,
+.mat-mdc-divider,
+.mat-mdc-icon,
+.mat-mdc-bottom-sheet-container,
+.mat-mdc-dialog-title,
+.mat-mdc-dialog-content,
+.mat-mdc-dialog-actions {
+  font-family: "Poppins", sans-serif !important;
+}
+
+// Fondo blanco para paneles y menús de Angular Material
+.mat-mdc-menu-panel,
+.mat-mdc-select-panel,
+.mat-mdc-autocomplete-panel,
+.mat-mdc-dialog-container,
+.mat-mdc-snack-bar-container,
+.mat-mdc-card,
+.mat-mdc-option,
+.mat-mdc-list,
+.mat-mdc-table,
+.mat-mdc-paginator,
+.mat-mdc-expansion-panel,
+.mat-mdc-tooltip,
+.mat-mdc-bottom-sheet-container {
+  background: #fff !important;
+  border-radius: 16px !important;
+}
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
