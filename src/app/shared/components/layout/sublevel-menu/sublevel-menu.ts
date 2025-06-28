@@ -10,6 +10,7 @@ import { INavbarData } from '@app/shared/models/navbar-data.interface';
   selector: 'app-sublevel-menu',
   imports: [NgClass, RouterLink, RouterLinkActive, MatIconModule],
   templateUrl: './sublevel-menu.html',
+  styleUrls: ['./../sidebar/sidebar.scss'],
   animations: [fadeInOutAnimation, sublevelMenuAnimation],
 })
 export class SublevelMenu {
