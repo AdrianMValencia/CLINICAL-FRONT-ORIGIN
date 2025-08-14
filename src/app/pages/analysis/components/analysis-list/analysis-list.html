@@ -1,0 +1,27 @@
+<div
+  class="max-w-screen-2xl mx-auto h-screen flex flex-col px-6 py-6 gap-6 overflow-hidden"
+>
+  <div
+    class="text-sm text-am-main-blue-dark flex items-center gap-2 font-medium mt-2"
+  >
+    <a class="hover:text-am-main-blue-light cursor-pointer">Dashboard</a>
+    <span>/</span>
+    <span class="text-am-main-blue-dark">Análisis</span>
+  </div>
+
+  <div class="bg-white rounded-3xl shadow-xl p-6 flex flex-col gap-4"></div>
+
+  <div
+    class="bg-white rounded-3xl shadow-xl p-6 flex flex-col gap-4 overflow-hidden mb-8"
+  >
+    <div class="h-full overflow-auto">
+      <app-list-table
+        [service]="analysisService"
+        [columns]="componentAnalysis$.tableColumns"
+        [sortBy]="componentAnalysis$.initialSort"
+        [sortDir]="componentAnalysis$.initialSortDir"
+        [getInputs]="componentAnalysis$.getInputs"
+      />
+    </div>
+  </div>
+</div>

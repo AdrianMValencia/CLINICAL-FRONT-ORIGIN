@@ -12,8 +12,8 @@ import { fadeInOutAnimation } from '@app/shared/animations/fade-in-out.animation
 import {
   INavbarData,
   navbarData,
-} from '@app/shared/models/navbar-data.interface';
-import { ISidebarToggle } from '@app/shared/models/sidebar-toggle.interface';
+} from '@app/shared/models/layout/navbar-data.interface';
+import { ISidebarToggle } from '@app/shared/models/layout/sidebar-toggle.interface';
 import { SublevelMenu } from '../sublevel-menu/sublevel-menu';
 
 @Component({

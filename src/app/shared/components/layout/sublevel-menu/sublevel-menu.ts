@@ -4,7 +4,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { fadeInOutAnimation } from '@app/shared/animations/fade-in-out.animation';
 import { sublevelMenuAnimation } from '@app/shared/animations/sublevel-menu.animation';
-import { INavbarData } from '@app/shared/models/navbar-data.interface';
+import { INavbarData } from '@app/shared/models/layout/navbar-data.interface';
 
 @Component({
   selector: 'app-sublevel-menu',
