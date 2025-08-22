@@ -1,3 +1,4 @@
+import { GenericButtonModel } from '@app/shared/models/reusables/generic-button.interface';
 import { TableColumns } from '@app/shared/models/reusables/list-table.interface';
 import { AnalysisResponse } from '../../models/analysis-response.interface';
 
@@ -67,9 +68,25 @@ const tableColumns: TableColumns<AnalysisResponse>[] = [
   },
 ];
 
+const actionButtonAnalysis: GenericButtonModel = {
+  label: 'Crear análisis',
+  icon: 'add',
+  tooltip: 'Crear nuevo análisis',
+};
+
+const initFilters = {
+  refresh: false,
+};
+
+const filters = {
+  refresh: false,
+};
 
 export const componentAnalysisSetting = {
   tableColumns,
+  actionButtonAnalysis,
+  initFilters,
+  filters,
   initialSort: 'Id',
   initialSortDir: 'desc',
   getInputs: '',

@@ -1,6 +1,4 @@
-<div
-  class="max-w-screen-2xl mx-auto h-screen flex flex-col px-6 py-6 gap-6 overflow-hidden"
->
+<div class="h-screen flex flex-col px-6 py-6 gap-6 overflow-hidden">
   <div
     class="text-sm text-am-main-blue-dark flex items-center gap-2 font-medium mt-2"
   >
@@ -8,19 +6,70 @@
     <span>/</span>
     <span class="text-am-main-blue-dark">Análisis</span>
   </div>
+  <div class="bg-white rounded-3xl shadow-xl p-6 flex flex-col gap-4">
+    <div class="flex items-center justify-between flex-wrap gap-4">
+      <div class="flex items-center">
+        <mat-icon
+          @scaleIn
+          class="text-xl text-am-main-blue-dark mb-1"
+          [fontIcon]="iconAnalysis$"
+        ></mat-icon>
+        <div
+          @fadeInRight
+          class="ml-2 text-xl font-semibold italic text-am-main-blue-dark"
+        >
+          Análisis
+        </div>
+      </div>
 
-  <div class="bg-white rounded-3xl shadow-xl p-6 flex flex-col gap-4"></div>
+      <div
+        class="flex flex-wrap gap-2 items-center justify-end w-full sm:w-auto"
+      >
+        <!-- <app-search-box
+          [searchOptions]="componentCustomsBroker$!.searchOptions"
+          (search)="search($event)"
+          [currentValue]="componentCustomsBroker$!.filters.textFilter"
+        />
+        <app-export-excel
+          [url]="getDownloadUrl"
+          [getInputs]="componentCustomsBroker$!.getInputs"
+          [filename]="componentCustomsBroker$!.filename"
+        /> -->
+      </div>
+    </div>
 
+    <div class="flex justify-between flex-wrap gap-4">
+      <div class="flex gap-2 flex-wrap items-end">
+        <!-- <app-filter-menu-states
+          [menuFilter]="componentCustomsBroker$!.menuItems"
+          [initfilters]="componentCustomsBroker$!.filters.stateFilter"
+          [reset]="resetChecks"
+          (dataChecked)="setDataFilterStates($event)"
+        />
+        <app-split-button
+          [configButtons]="componentCustomsBroker$!.filterButtons"
+          (doThisFunction)="resetButton($event)"
+        /> -->
+      </div>
+      <div class="flex items-end">
+        <app-generic-button
+          [infoButton]="componentAnalysis$!.actionButtonAnalysis"
+          (clickButton)="newAnalysis()"
+        />
+      </div>
+    </div>
+  </div>
   <div
-    class="bg-white rounded-3xl shadow-xl p-6 flex flex-col gap-4 overflow-hidden mb-8"
+    class="bg-white rounded-3xl shadow-xl p-6 flex flex-col gap-4 overflow-hidden mb-12"
   >
     <div class="h-full overflow-auto">
       <app-list-table
+        (rowClick)="rowClick($event)"
         [service]="analysisService"
-        [columns]="componentAnalysis$.tableColumns"
-        [sortBy]="componentAnalysis$.initialSort"
-        [sortDir]="componentAnalysis$.initialSortDir"
-        [getInputs]="componentAnalysis$.getInputs"
+        [columns]="componentAnalysis$!.tableColumns"
+        [sortBy]="componentAnalysis$!.initialSort"
+        [sortDir]="componentAnalysis$!.initialSortDir"
+        [getInputs]="componentAnalysis$!.getInputs"
       />
     </div>
   </div>

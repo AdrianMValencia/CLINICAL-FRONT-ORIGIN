@@ -47,7 +47,7 @@ export class Analysis extends DefaultTable {
   }
 
   analysisById(analysisId: number): Observable<AnalysisByIdResponse> {
-    const requestUrl = `${env.api}${endpoint.ANALYSIS_BY_ID}/${analysisId}`;
+    const requestUrl = `${env.api}${endpoint.ANALYSIS_BY_ID}${analysisId}`;
     return this.httpClient
       .get<BaseApiResponse<AnalysisByIdResponse>>(requestUrl)
       .pipe(
