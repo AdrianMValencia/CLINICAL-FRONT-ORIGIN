@@ -113,10 +113,14 @@ export class ListTable<T> implements OnInit, AfterViewInit, OnChanges {
     pageSize: 10, // Tamaño de página inicial
     pageLength: 0, // Longitud total de registros
   };
+  @Output() badgeClick = new EventEmitter<{
+    row: T;
+    column: TableColumns<T>;
+  }>();
 
   constructor(
     private spinner: NgxSpinnerService // Servicio para manejar el spinner de carga
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.dataSource.paginator = this.paginator; // Configura el paginador en la fuente de datos
@@ -210,5 +214,9 @@ export class ListTable<T> implements OnInit, AfterViewInit, OnChanges {
     this.paginator.page.subscribe(() => {
       this.changesGetInputs.emit(); // Emite el evento de cambios en los inputs al cambiar de página
     });
+  }
+
+  onBadgeClick(row: T, column: TableColumns<T>) {
+    this.badgeClick.emit({ row, column });
   }
 }

@@ -25,31 +25,20 @@
       <div
         class="flex flex-wrap gap-2 items-center justify-end w-full sm:w-auto"
       >
-        <!-- <app-search-box
-          [searchOptions]="componentCustomsBroker$!.searchOptions"
+        <app-search-box
+          [searchOptions]="componentAnalysis$!.searchOptions"
           (search)="search($event)"
-          [currentValue]="componentCustomsBroker$!.filters.textFilter"
+          [currentValue]="componentAnalysis$!.filters.textFilter"
         />
-        <app-export-excel
-          [url]="getDownloadUrl"
-          [getInputs]="componentCustomsBroker$!.getInputs"
-          [filename]="componentCustomsBroker$!.filename"
-        /> -->
       </div>
     </div>
 
     <div class="flex justify-between flex-wrap gap-4">
       <div class="flex gap-2 flex-wrap items-end">
-        <!-- <app-filter-menu-states
-          [menuFilter]="componentCustomsBroker$!.menuItems"
-          [initfilters]="componentCustomsBroker$!.filters.stateFilter"
-          [reset]="resetChecks"
-          (dataChecked)="setDataFilterStates($event)"
-        />
         <app-split-button
-          [configButtons]="componentCustomsBroker$!.filterButtons"
+          [configButtons]="componentAnalysis$!.filterButtons"
           (doThisFunction)="resetButton($event)"
-        /> -->
+        />
       </div>
       <div class="flex items-end">
         <app-generic-button
@@ -65,6 +54,7 @@
     <div class="h-full overflow-auto">
       <app-list-table
         (rowClick)="rowClick($event)"
+        (badgeClick)="onBadgeClick($event)"
         [service]="analysisService"
         [columns]="componentAnalysis$!.tableColumns"
         [sortBy]="componentAnalysis$!.initialSort"

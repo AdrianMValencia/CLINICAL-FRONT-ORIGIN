@@ -1,7 +1,14 @@
 import { Component, inject } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { MatIcon } from '@angular/material/icon';
+import { fadeInRight400ms } from '@app/shared/animations/fade-in-right.animation';
+import { scaleIn400ms } from '@app/shared/animations/scale-in.animation';
 import { GenericButton } from '@app/shared/components/reusables/generic-button/generic-button';
+import { SearchBox } from '@app/shared/components/reusables/search-box/search-box';
+import { SplitButton } from '@app/shared/components/reusables/split-button/split-button';
+import { TableColumns } from '@app/shared/models/reusables/list-table.interface';
+import { SearchBoxModel } from '@app/shared/models/reusables/search-options.interface';
+import { Actions } from '@app/shared/models/reusables/split-button.interface';
 import { ListTable } from '@shared/components/reusables/list-table/list-table';
 import { RowClick } from '@shared/models/reusables/rowclick-interface';
 import { firstValueFrom } from 'rxjs';
@@ -14,9 +21,9 @@ type ComponentAnalysisSetting = typeof componentAnalysisSetting;
 
 @Component({
   selector: 'app-analysis-list',
-  imports: [MatIcon, ListTable, GenericButton],
+  imports: [MatIcon, ListTable, GenericButton, SplitButton, SearchBox],
   templateUrl: './analysis-list.html',
-  styleUrl: './analysis-list.scss',
+  animations: [scaleIn400ms, fadeInRight400ms],
 })
 export class AnalysisList {
   public readonly analysisService = inject(Analysis);
@@ -24,6 +31,7 @@ export class AnalysisList {
 
   iconAnalysis$ = 'troubleshoot';
   componentAnalysis$: ComponentAnalysisSetting | null = null;
+  resetChecks: boolean = false;
 
   ngOnInit(): void {
     this.componentAnalysis$ = componentAnalysisSetting;
@@ -106,5 +114,83 @@ export class AnalysisList {
     if (!this.componentAnalysis$) return;
 
     this.componentAnalysis$.filters.refresh = refresh;
+    this.formatGetInputs();
+  }
+
+  formatGetInputs() {
+    let str = '';
+    if (!this.componentAnalysis$) return;
+
+    if (this.componentAnalysis$.filters.textFilter != null) {
+      str += `&numFilter=${this.componentAnalysis$.filters.numFilter}&textFilter=${this.componentAnalysis$.filters.textFilter}`;
+    }
+
+    if (this.componentAnalysis$.filters.refresh == true) {
+      let random = Math.random();
+      str += `&refresh=${random}`;
+      this.componentAnalysis$.filters.refresh = false;
+    }
+
+    this.componentAnalysis$.getInputs = str;
+  }
+
+  search(data: SearchBoxModel) {
+    if (!this.componentAnalysis$) return;
+    this.componentAnalysis$.filters.numFilter = data.searchValue;
+    this.componentAnalysis$.filters.textFilter = data.searchData;
+    this.formatGetInputs();
+  }
+
+  resetButton(action: Actions) {
+    if (!this.componentAnalysis$) return;
+
+    switch (action) {
+      case 1:
+        this.componentAnalysis$.filters.refresh = true;
+        this.formatGetInputs();
+        break;
+      case 2:
+        this.initFilterReset();
+        this.resetChecks = !this.resetChecks;
+        break;
+    }
+  }
+
+  initFilterReset() {
+    if (!this.componentAnalysis$) return;
+
+    this.componentAnalysis$.filters = {
+      ...this.componentAnalysis$.initFilters,
+    };
+    this.formatGetInputs();
+  }
+
+  async onBadgeClick(event: {
+    row: AnalysisResponse;
+    column: TableColumns<unknown>;
+  }) {
+    const currentState = event.row.stateAnalysis.label === 'ACTIVO' ? 1 : 0;
+    const newState = currentState === 1 ? 0 : 1;
+    const confirm = await Swal.fire({
+      title: '¿Cambiar estado?',
+      text: `¿Seguro que deseas cambiar el estado a ${
+        newState === 1 ? 'ACTIVO' : 'INACTIVO'
+      }?`,
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonText: 'Sí, cambiar',
+      cancelButtonText: 'Cancelar',
+      confirmButtonColor: '#004A89',
+      cancelButtonColor: '#9c667d',
+      width: 430,
+    });
+
+    if (confirm.isConfirmed) {
+      this.analysisService
+        .analysisChangeState(event.row.analysisId, newState)
+        .subscribe(() => {
+          this.setGetInputsAnalysis(true);
+        });
+    }
   }
 }
