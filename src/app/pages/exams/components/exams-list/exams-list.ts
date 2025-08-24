@@ -1,5 +1,5 @@
 import { Component, effect, inject } from '@angular/core';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { MatIcon } from '@angular/material/icon';
 import { fadeInRight400ms } from '@shared/animations/fade-in-right.animation';
 import { scaleIn400ms } from '@shared/animations/scale-in.animation';
@@ -11,7 +11,6 @@ import { TableColumns } from '@shared/models/reusables/list-table.interface';
 import { RowClick } from '@shared/models/reusables/rowclick-interface';
 import { SearchBoxModel } from '@shared/models/reusables/search-options.interface';
 import { Actions } from '@shared/models/reusables/split-button.interface';
-import { firstValueFrom } from 'rxjs';
 import Swal from 'sweetalert2';
 import { ExamsResponse } from '../../models/exams-response.interface';
 import { Exams } from '../../services/exams';
@@ -67,7 +66,7 @@ export class ExamsList {
     const examsDetail = this.examsService.getExamsByIdSignal();
     if (examsDetail) {
       let dialogRef = this.dialog.open(ExamsManagement, {
-        data: { mode: 'update', examsDetail }, // 👈 aquí ya lo pasas
+        data: { mode: 'update', examsDetail },
         disableClose: true,
         width: '500px',
         enterAnimationDuration: 250,
@@ -77,7 +76,6 @@ export class ExamsList {
       dialogRef.afterClosed().subscribe((res) => {
         if (res) this.setGetInputsExams(true);
 
-        // Resetear el signal para no reabrir automáticamente
         this.examsService['examsByIdSignal'].set(null);
       });
     }
@@ -165,8 +163,8 @@ export class ExamsList {
   private examsChangeStateEffect = effect(() => {
     const changed = this.examsService.getExamsChangeStateSignal();
     if (changed === true) {
-      this.setGetInputsExams(true); // refrescar tabla
-      this.examsService['examsChangeStateSignal'].set(null); // reset
+      this.setGetInputsExams(true);
+      this.examsService['examsChangeStateSignal'].set(null);
     }
   });
 
@@ -192,8 +190,7 @@ export class ExamsList {
     });
 
     if (confirm.isConfirmed) {
-      this.examsService.examsChangeState(event.row.examId, newState); // 👈 sin subscribe
-      // this.setGetInputsExams(true);
+      this.examsService.examsChangeState(event.row.examId, newState);
     }
   }
 }

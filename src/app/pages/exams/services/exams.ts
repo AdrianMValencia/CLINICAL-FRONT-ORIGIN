@@ -53,6 +53,11 @@ export class Exams {
   private readonly examsDeleteSignal = signal<boolean | null>(null);
   private readonly examsChangeStateSignal = signal<boolean | null>(null);
 
+  /**
+   * @description Obtiene un examen por su ID y actualiza el signal examsByIdSignal.
+   * @param examsId ID del examen a obtener.
+   * @returns void
+   */
   examsById(examsId: number): void {
     const requestUrl = `${env.api}${endpoint.EXAMS_BY_ID}${examsId}`;
     this.httpClient
@@ -63,6 +68,11 @@ export class Exams {
       });
   }
 
+  /**
+   * @description Crea un nuevo examen y actualiza el signal examsCreateSignal.
+   * @param exams Datos del examen a crear.
+   * @returns void
+   */
   examsCreate(exams: CreateExamsRequest): void {
     const requestUrl = `${env.api}${endpoint.EXAMS_CREATE}`;
     this.httpClient
@@ -72,6 +82,11 @@ export class Exams {
       });
   }
 
+  /**
+   * @description Actualiza un examen existente y actualiza el signal examsUpdateSignal.
+   * @param exams Datos del examen a actualizar.
+   * @returns void
+   */
   examsUpdate(exams: UpdateExamsRequest): void {
     const requestUrl = `${env.api}${endpoint.EXAMS_UPDATE}`;
     this.httpClient
@@ -81,6 +96,10 @@ export class Exams {
       });
   }
 
+  /**
+   * @description Elimina un examen por su ID y actualiza el signal.
+   * @param examsId ID del examen a eliminar.
+   */
   examsDelete(examsId: number): void {
     const requestUrl = `${env.api}${endpoint.EXAMS_DELETE}/${examsId}`;
     this.httpClient.delete<BaseApiResponse<boolean>>(requestUrl).subscribe({
@@ -96,6 +115,11 @@ export class Exams {
     });
   }
 
+  /**
+   * @description Cambia el estado de un examen y actualiza el signal.
+   * @param examId ID del examen a cambiar el estado.
+   * @param state Nuevo estado del examen.
+   */
   examsChangeState(examId: number, state: number): void {
     const requestUrl = `${env.api}${endpoint.EXAMS_CHANGE_STATE}`;
     this.httpClient
@@ -112,14 +136,24 @@ export class Exams {
         error: () => this.examsChangeStateSignal.set(false),
       });
   }
-
+  /**
+   * @returns examsByIdSignal
+   */
   getExamsByIdSignal = this.examsByIdSignal.asReadonly();
-
+  /**
+   * @returns examsCreateSignal
+   */
   getExamsCreateSignal = this.examsCreateSignal.asReadonly();
-
+  /**
+   * @returns examsUpdateSignal
+   */
   getExamsUpdateSignal = this.examsUpdateSignal.asReadonly();
-
+  /**
+   * @returns examsDeleteSignal
+   */
   getExamsDeleteSignal = this.examsDeleteSignal.asReadonly();
-
+  /**
+   * @returns examsChangeStateSignal
+   */
   getExamsChangeStateSignal = this.examsChangeStateSignal.asReadonly();
 }
