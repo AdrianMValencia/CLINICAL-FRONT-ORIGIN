@@ -17,7 +17,6 @@ import { AnalysisResponse } from '../../models/analysis-response.interface';
 import { Analysis } from '../../services/analysis';
 import { AnalysisManagement } from '../analysis-management/analysis-management';
 import { componentAnalysisSetting } from './analysis-list.config';
-type ComponentAnalysisSetting = typeof componentAnalysisSetting;
 
 @Component({
   selector: 'app-analysis-list',
@@ -28,14 +27,10 @@ type ComponentAnalysisSetting = typeof componentAnalysisSetting;
 export class AnalysisList {
   public readonly analysisService = inject(Analysis);
   public readonly dialog = inject(MatDialog);
+  public readonly componentAnalysis$ = componentAnalysisSetting;
 
   iconAnalysis$ = 'troubleshoot';
-  componentAnalysis$: ComponentAnalysisSetting | null = null;
   resetChecks: boolean = false;
-
-  ngOnInit(): void {
-    this.componentAnalysis$ = componentAnalysisSetting;
-  }
 
   newAnalysis(): void {
     this.dialog

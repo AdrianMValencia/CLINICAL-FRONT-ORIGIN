@@ -5,7 +5,6 @@ import {
   PaginatedApiResponse,
 } from '@app/shared/models/commons/base-api-response.interface';
 import { Alert } from '@app/shared/services/alert';
-import { DefaultTable } from '@app/shared/services/default-table';
 import { endpoint } from '@app/shared/utils/endpoints.util';
 import { getIcon, getStateBadge } from '@app/shared/utils/functions.util';
 import { environment as env } from '@env/environment.development';
@@ -22,7 +21,7 @@ import {
 @Injectable({
   providedIn: 'root',
 })
-export class Analysis extends DefaultTable {
+export class Analysis {
   private readonly httpClient = inject(HttpClient);
   private readonly alertService = inject(Alert);
 

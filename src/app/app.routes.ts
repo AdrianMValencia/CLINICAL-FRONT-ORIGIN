@@ -9,6 +9,13 @@ const childrenRoutes: Routes = [
         (c) => c.AnalysisList
       ),
   },
+  {
+    path: 'exams',
+    loadComponent: () =>
+      import('./pages/exams/components/exams-list/exams-list').then(
+        (c) => c.ExamsList
+      ),
+  },
 ];
 
 export const routes: Routes = [

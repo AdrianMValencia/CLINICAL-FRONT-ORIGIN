@@ -4,7 +4,7 @@
   >
     <a class="hover:text-am-main-blue-light cursor-pointer">Dashboard</a>
     <span>/</span>
-    <span class="text-am-main-blue-dark">Análisis</span>
+    <span class="text-am-main-blue-dark">Exámenes</span>
   </div>
   <div class="bg-white rounded-3xl shadow-xl p-6 flex flex-col gap-4">
     <div class="flex items-center justify-between flex-wrap gap-4">
@@ -12,13 +12,13 @@
         <mat-icon
           @scaleIn
           class="text-xl text-am-main-blue-dark mb-1"
-          [fontIcon]="iconAnalysis$"
+          [fontIcon]="iconExams$"
         ></mat-icon>
         <div
           @fadeInRight
           class="ml-2 text-xl font-semibold italic text-am-main-blue-dark"
         >
-          Análisis
+          Exámenes
         </div>
       </div>
 
@@ -26,9 +26,9 @@
         class="flex flex-wrap gap-2 items-center justify-end w-full sm:w-auto"
       >
         <app-search-box
-          [searchOptions]="componentAnalysis$.searchOptions"
+          [searchOptions]="componentExams$.searchOptions"
           (search)="search($event)"
-          [currentValue]="componentAnalysis$.filters.textFilter"
+          [currentValue]="componentExams$.filters.textFilter"
         />
       </div>
     </div>
@@ -36,14 +36,14 @@
     <div class="flex justify-between flex-wrap gap-4">
       <div class="flex gap-2 flex-wrap items-end">
         <app-split-button
-          [configButtons]="componentAnalysis$.filterButtons"
+          [configButtons]="componentExams$.filterButtons"
           (doThisFunction)="resetButton($event)"
         />
       </div>
       <div class="flex items-end">
         <app-generic-button
-          [infoButton]="componentAnalysis$.actionButtonAnalysis"
-          (clickButton)="newAnalysis()"
+          [infoButton]="componentExams$.actionButtonExams"
+          (clickButton)="newExams()"
         />
       </div>
     </div>
@@ -55,11 +55,11 @@
       <app-list-table
         (rowClick)="rowClick($event)"
         (badgeClick)="onBadgeClick($event)"
-        [service]="analysisService"
-        [columns]="componentAnalysis$.tableColumns"
-        [sortBy]="componentAnalysis$.initialSort"
-        [sortDir]="componentAnalysis$.initialSortDir"
-        [getInputs]="componentAnalysis$.getInputs"
+        [service]="examsService"
+        [columns]="componentExams$.tableColumns"
+        [sortBy]="componentExams$.initialSort"
+        [sortDir]="componentExams$.initialSortDir"
+        [getInputs]="componentExams$.getInputs"
       />
     </div>
   </div>
