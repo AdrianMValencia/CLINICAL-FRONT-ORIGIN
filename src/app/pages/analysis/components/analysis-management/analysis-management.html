@@ -1,1 +1,32 @@
-<p>analysis-management works!</p>
+<form [formGroup]="analysisForm">
+  <h2 mat-dialog-title class="headline m-0 text-xl text-accent">
+    <strong class="text-am-main-blue-dark">
+      @if(data.mode == 'create') { Nuevo análisis } @if (data.mode == 'update')
+      { Actualizar análisis }
+    </strong>
+  </h2>
+  <mat-dialog-content>
+    <div class="grid grid-cols-1 md:grid-cols-1 gap-3 mb-4">
+      <app-input-text
+        label="Nombre"
+        [mode]="mode"
+        [required]="true"
+        placeholder="Ingrese el nombre"
+        [inputControl]="analysisForm.get('name')"
+        [submitted]="submitted"
+      />
+    </div>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <button mat-button mat-dialog-close>Cancelar</button>
+    <button
+      color="purple"
+      class="bg-accent text-accent-contrast"
+      mat-button
+      (click)="analysisSave()"
+      [disabled]="analysisForm.invalid"
+    >
+      Guardar
+    </button>
+  </mat-dialog-actions>
+</form>

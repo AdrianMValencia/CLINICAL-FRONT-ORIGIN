@@ -1,15 +1,15 @@
 import { GenericButtonModel } from '@shared/models/reusables/generic-button.interface';
 import { TableColumns } from '@shared/models/reusables/list-table.interface';
 import {
-  SplitButtonModel,
-  Actions,
+    Actions,
+    SplitButtonModel,
 } from '@shared/models/reusables/split-button.interface';
-import { AnalysisResponse } from '../../models/analysis-response.interface';
-import { GenericValidators } from '@app/shared/utils/generic-validators.util';
+import { GenericValidators } from '@shared/utils/generic-validators.util';
+import { ExamsResponse } from '../../models/exams-response.interface';
 
-const tableColumns: TableColumns<AnalysisResponse>[] = [
+const tableColumns: TableColumns<ExamsResponse>[] = [
   {
-    label: 'Análisis',
+    label: 'Examen',
     cssLabel: ['font-bold', 'text-xs', 'text-am-main-blue-dark'],
     property: 'name',
     cssProperty: ['text-xs', 'font-bold', 'whitespace-normal', 'max-w-120'],
@@ -17,6 +17,18 @@ const tableColumns: TableColumns<AnalysisResponse>[] = [
     sticky: false,
     sort: true,
     sortProperty: 'name',
+    visible: true,
+    download: true,
+  },
+  {
+    label: 'Análisis',
+    cssLabel: ['font-bold', 'text-xs', 'text-am-main-blue-dark'],
+    property: 'analysis',
+    cssProperty: ['text-xs', 'font-bold', 'whitespace-normal', 'max-w-120'],
+    type: 'text',
+    sticky: false,
+    sort: true,
+    sortProperty: 'analysis',
     visible: true,
     download: true,
   },
@@ -39,7 +51,7 @@ const tableColumns: TableColumns<AnalysisResponse>[] = [
       'text-am-main-blue-dark',
       'mat-sort-header-text-center',
     ],
-    property: 'stateAnalysis',
+    property: 'stateExam',
     cssProperty: [],
     type: 'simpleBadge',
     sticky: false,
@@ -73,10 +85,10 @@ const tableColumns: TableColumns<AnalysisResponse>[] = [
   },
 ];
 
-const actionButtonAnalysis: GenericButtonModel = {
-  label: 'Crear análisis',
+const actionButtonExams: GenericButtonModel = {
+  label: 'Crear examen',
   icon: 'add',
-  tooltip: 'Crear nuevo análisis',
+  tooltip: 'Crear nuevo examen',
 };
 
 const filterButtons: SplitButtonModel[] = [
@@ -121,9 +133,9 @@ const filters = {
   refresh: false,
 };
 
-export const componentAnalysisSetting = {
+export const componentExamsSetting = {
   tableColumns,
-  actionButtonAnalysis,
+  actionButtonExams,
   filterButtons,
   searchOptions,
   initFilters,
@@ -131,5 +143,5 @@ export const componentAnalysisSetting = {
   initialSort: 'Id',
   initialSortDir: 'desc',
   getInputs: '',
-  filename: 'lista-de-análisis',
+  filename: 'lista-de-examenes',
 };

@@ -1,8 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { BaseApiResponse, PaginatedApiResponse } from '@app/shared/models/commons/base-api-response.interface';
+import {
+  BaseApiResponse,
+  PaginatedApiResponse,
+} from '@app/shared/models/commons/base-api-response.interface';
 import { Alert } from '@app/shared/services/alert';
-import { DefaultTable } from '@app/shared/services/default-table';
 import { endpoint } from '@app/shared/utils/endpoints.util';
 import { getIcon, getStateBadge } from '@app/shared/utils/functions.util';
 import { environment as env } from '@env/environment.development';
@@ -19,7 +21,7 @@ import {
 @Injectable({
   providedIn: 'root',
 })
-export class Analysis extends DefaultTable {
+export class Analysis {
   private readonly httpClient = inject(HttpClient);
   private readonly alertService = inject(Alert);
 
@@ -30,7 +32,7 @@ export class Analysis extends DefaultTable {
     pageNumber: number,
     getInputs?: any
   ): Observable<PaginatedApiResponse<AnalysisResponse>> {
-    const requestUrl = `${env.api}${endpoint.LIST_ANALYSIS}?PageNumber=${pageNumber}&PageSize=${pageSize}`;
+    const requestUrl = `${env.api}${endpoint.LIST_ANALYSIS}?PageNumber=${pageNumber}&PageSize=${pageSize}${getInputs}`;
 
     return this.httpClient
       .get<PaginatedApiResponse<AnalysisResponse>>(requestUrl)
@@ -47,7 +49,7 @@ export class Analysis extends DefaultTable {
   }
 
   analysisById(analysisId: number): Observable<AnalysisByIdResponse> {
-    const requestUrl = `${env.api}${endpoint.ANALYSIS_BY_ID}/${analysisId}`;
+    const requestUrl = `${env.api}${endpoint.ANALYSIS_BY_ID}${analysisId}`;
     return this.httpClient
       .get<BaseApiResponse<AnalysisByIdResponse>>(requestUrl)
       .pipe(
@@ -80,5 +82,21 @@ export class Analysis extends DefaultTable {
         }
       })
     );
+  }
+
+  analysisChangeState(analysisId: number, state: number): Observable<void> {
+    const requestUrl = `${env.api}${endpoint.ANALYSIS_CHANGE_STATE}`;
+    return this.httpClient
+      .put<BaseApiResponse<boolean>>(requestUrl, {
+        analysisId: analysisId,
+        state: state,
+      })
+      .pipe(
+        map((resp: BaseApiResponse<boolean>) => {
+          if (resp.isSuccess) {
+            this.alertService.success('Excelente', resp.message);
+          }
+        })
+      );
   }
 }

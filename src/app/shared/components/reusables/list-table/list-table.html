@@ -1,11 +1,12 @@
 <div class="h-full flex flex-col relative bg-white">
   <ngx-spinner
-    bdColor="rgba(0, 0, 0, 0.8)"
+    [fullScreen]="false"
+    bdColor="rgb(70, 84, 153, 0.3)"
     size="medium"
-    color="#fff"
-    type="ball-scale-ripple-multiple"
-    [fullScreen]="true"
-    ><p style="color: white"> Cargando... </p>
+    name="modal-table"
+    color="#7084E3"
+    type="ball-clip-rotate-pulse"
+  >
   </ngx-spinner>
   <div class="h-full" [class.overflow-auto]="dataSource.filteredData.length">
     <table
@@ -184,8 +185,10 @@
         <td mat-cell *matCellDef="let row" [ngClass]="column.cssProperty">
           <div
             [ngClass]="row[column.property].css"
+            class="cursor-pointer"
             [matTooltip]="row[column.property].tooltip || ''"
             matTooltipPosition="above"
+            (click)="onBadgeClick(row, column)"
           >
             {{ row[column.property].label }}
           </div>

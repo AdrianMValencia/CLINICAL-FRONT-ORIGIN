@@ -44,7 +44,7 @@ export function getStateBadge(label: string, tooltip?: string) {
       'SIN INFORMAR',
       'ANULADO',
       'ELIMINADO',
-      'Inactivo',
+      'INACTIVO',
       'Cerradas',
       'DESHABILITADO',
       'Disabled',
