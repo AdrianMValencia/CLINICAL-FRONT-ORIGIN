@@ -27,6 +27,8 @@ import {
   CreateExamsRequest,
   UpdateExamsRequest,
 } from '../../models/exams-request.interface';
+import { Selects } from '@shared/services/selects';
+import { SelectResponse } from '@shared/models/commons/select-response.interface';
 
 @Component({
   selector: 'app-exams-management',
@@ -51,7 +53,9 @@ export class ExamsManagement {
   private readonly examsService = inject(Exams);
   readonly dialogRef = inject(MatDialogRef<ExamsManagement>);
   private readonly alert = inject(Alert);
+  private readonly selectsService = inject(Selects);
 
+  analysis$: SelectResponse[] = [];
   mode: 'create' | 'update';
   submitted = false;
   visible = false;
@@ -64,8 +68,41 @@ export class ExamsManagement {
     this.examsForm = this.fb$.group({
       examId: [0, [Validators.required]],
       name: [''],
+      analysisId: [''],
     });
   }
+
+  private createEffect = effect(() => {
+    const success = this.examsService.getExamsCreateSignal();
+    if (success !== null) {
+      this.loading = false;
+      if (success) {
+        this.swalResponse({
+          isSuccess: true,
+          message: 'Examen creado correctamente',
+        });
+      } else {
+        this.swalError('Error al crear el examen');
+      }
+      (this.examsService as any).examsCreateSignal.set(null);
+    }
+  });
+
+  private updateEffect = effect(() => {
+    const success = this.examsService.getExamsUpdateSignal();
+    if (success !== null) {
+      this.loading = false;
+      if (success) {
+        this.swalResponse({
+          isSuccess: true,
+          message: 'Examen actualizado correctamente',
+        });
+      } else {
+        this.swalError('Error al actualizar el examen');
+      }
+      (this.examsService as any).examsUpdateSignal.set(null);
+    }
+  });
 
   constructor(
     @Inject(MAT_DIALOG_DATA)
@@ -81,36 +118,14 @@ export class ExamsManagement {
   }
 
   ngOnInit(): void {
-    effect(() => {
-      const success = this.examsService.getExamsCreateSignal();
-      if (success !== null) {
-        this.loading = false;
-        if (success) {
-          this.swalResponse({
-            isSuccess: true,
-            message: 'Examen creado correctamente',
-          });
-        } else {
-          this.swalError('Error al crear el examen');
-        }
-        (this.examsService as any).examsCreateSignal.set(null);
-      }
-    });
+    this.getAnalysisSelect();
+  }
 
-    effect(() => {
-      const success = this.examsService.getExamsUpdateSignal();
-      if (success !== null) {
-        this.loading = false;
-        if (success) {
-          this.swalResponse({
-            isSuccess: true,
-            message: 'Examen actualizado correctamente',
-          });
-        } else {
-          this.swalError('Error al actualizar el examen');
-        }
-        (this.examsService as any).examsUpdateSignal.set(null);
-      }
+  getAnalysisSelect() {
+    this.selectsService.listAnalysis().subscribe({
+      next: (response) => {
+        this.analysis$ = response;
+      },
     });
   }
 

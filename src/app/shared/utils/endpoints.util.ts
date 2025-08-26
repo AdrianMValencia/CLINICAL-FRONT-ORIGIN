@@ -5,6 +5,7 @@ export const endpoint = {
   ANALYSIS_UPDATE: 'Analysis/Edit',
   ANALYSIS_DELETE: 'Analysis/Remove',
   ANALYSIS_CHANGE_STATE: 'Analysis/ChangeState',
+  ANALYSIS_SELECT: 'Analysis/Select',
 
   LIST_EXAMS: 'Exam/ListExam',
   EXAMS_BY_ID: 'Exam/',
