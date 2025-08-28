@@ -20,4 +20,8 @@ export const endpoint = {
   MEDICS_UPDATE: 'Medic/Edit',
   MEDICS_DELETE: 'Medic/Remove',
   MEDICS_CHANGE_STATE: 'Medic/ChangeState',
+
+  SPECIALTY_SELECT: 'Specialty/Select',
+
+  DOCUMENT_TYPE_SELECT: 'DocumentType/Select',
 };

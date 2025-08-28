@@ -129,7 +129,8 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .mat-mdc-paginator,
 .mat-mdc-expansion-panel,
 .mat-mdc-tooltip,
-.mat-mdc-bottom-sheet-container {
+.mat-mdc-bottom-sheet-container,
+.mat-datepicker-content {
   background: #fff !important;
   border-radius: 16px !important;
 }

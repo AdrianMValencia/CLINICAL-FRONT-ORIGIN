@@ -20,4 +20,22 @@ export class Selects {
       })
     );
   }
+
+  listSpecialty(): Observable<SelectResponse[]> {
+    const requestUrl = `${env.api}${endpoint.SPECIALTY_SELECT}`;
+    return this.http.get<BaseApiResponse<SelectResponse[]>>(requestUrl).pipe(
+      map((resp) => {
+        return resp.data;
+      })
+    );
+  }
+
+  listDocumentTypes(): Observable<SelectResponse[]> {
+    const requestUrl = `${env.api}${endpoint.DOCUMENT_TYPE_SELECT}`;
+    return this.http.get<BaseApiResponse<SelectResponse[]>>(requestUrl).pipe(
+      map((resp) => {
+        return resp.data;
+      })
+    );
+  }
 }
