@@ -24,4 +24,15 @@ export const endpoint = {
   SPECIALTY_SELECT: 'Specialty/Select',
 
   DOCUMENT_TYPE_SELECT: 'DocumentType/Select',
+
+  AGE_TYPE_SELECT: 'AgeType/Select',
+
+  GENDER_SELECT: 'Gender/Select',
+
+  LIST_PATIENTS: 'Patient/ListPatient',
+  PATIENT_BY_ID: 'Patient/',
+  PATIENT_CREATE: 'Patient/Register',
+  PATIENT_UPDATE: 'Patient/Edit',
+  PATIENT_DELETE: 'Patient/Remove',
+  PATIENT_CHANGE_STATE: 'Patient/ChangeState',
 };

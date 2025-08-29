@@ -38,4 +38,22 @@ export class Selects {
       })
     );
   }
+
+  listAgeTypes(): Observable<SelectResponse[]> {
+    const requestUrl = `${env.api}${endpoint.AGE_TYPE_SELECT}`;
+    return this.http.get<BaseApiResponse<SelectResponse[]>>(requestUrl).pipe(
+      map((resp) => {
+        return resp.data;
+      })
+    );
+  }
+
+  listGenders(): Observable<SelectResponse[]> {
+    const requestUrl = `${env.api}${endpoint.GENDER_SELECT}`;
+    return this.http.get<BaseApiResponse<SelectResponse[]>>(requestUrl).pipe(
+      map((resp) => {
+        return resp.data;
+      })
+    );
+  }
 }
