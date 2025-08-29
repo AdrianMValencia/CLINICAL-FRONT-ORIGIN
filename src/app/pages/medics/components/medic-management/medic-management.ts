@@ -8,7 +8,11 @@ import {
 } from '@angular/forms';
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
 import { MatButtonModule } from '@angular/material/button';
-import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import {
+  DateAdapter,
+  MAT_DATE_FORMATS,
+  MAT_DATE_LOCALE,
+} from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import {
   MAT_DIALOG_DATA,
@@ -53,7 +57,7 @@ import { Medics } from '../../services/medics';
     InputDate,
   ],
   templateUrl: './medic-management.html',
-   providers: [
+  providers: [
     MatDatepickerModule,
     {
       provide: DateAdapter,
@@ -172,8 +176,11 @@ export class MedicManagement {
 
   initCurrentValuesForm() {
     const dialog = this.medicsDialog;
-    console.log("dialog ", dialog);
-    this.medicsForm.patchValue({ ...dialog });
+    const birthDate = dialog!.birthDate ? new Date(dialog!.birthDate) : null;
+    this.medicsForm.patchValue({
+      ...dialog,
+      birthDate: birthDate ? birthDate.toISOString().split('T')[0] : null,
+    });
   }
 
   medicsSave() {
