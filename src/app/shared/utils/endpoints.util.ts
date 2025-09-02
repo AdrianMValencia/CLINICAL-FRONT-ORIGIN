@@ -35,4 +35,10 @@ export const endpoint = {
   PATIENT_UPDATE: 'Patient/Edit',
   PATIENT_DELETE: 'Patient/Remove',
   PATIENT_CHANGE_STATE: 'Patient/ChangeState',
+
+  LIST_TAKE_EXAM: 'TakeExam/ListTakeExam',
+  TAKE_EXAM_BY_ID: 'TakeExam/',
+  TAKE_EXAM_CREATE: 'TakeExam/Register',
+  TAKE_EXAM_UPDATE: 'TakeExam/Edit',
+  TAKE_EXAM_CHANGE_STATE: 'TakeExam/ChangeState',
 };

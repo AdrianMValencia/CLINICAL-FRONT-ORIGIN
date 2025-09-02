@@ -14,91 +14,12 @@ export function getStateBadge(label: string, tooltip?: string) {
     css: generalCss + COLORS_BADGE.main,
   };
 
-  if (
-    [
-      'PUNTUAL',
-      'PRESENCIAL',
-      'ACTIVO',
-      'APROBADO',
-      'RENOVADO',
-      'EXTRAS',
-      'HORAS EXTRAS',
-      'PERMISO POR DÍAS',
-      'SIN SINTOMAS',
-      'Enabled',
-      'Abiertas',
-      'Activo',
-    ].includes(label)
-  ) {
+  if (['ACTIVO', 'FINALIZADO'].includes(label)) {
     badge.css = generalCss + COLORS_BADGE.custom4;
   }
 
-  if (
-    ['TARDANZA', 'PENDIENTE', 'P. POR DIRECTOR', 'POR RENOVAR'].includes(label)
-  ) {
-    badge.css = generalCss + COLORS_BADGE.orange;
-  }
-
-  if (
-    [
-      'SIN INFORMAR',
-      'ANULADO',
-      'ELIMINADO',
-      'INACTIVO',
-      'Cerradas',
-      'DESHABILITADO',
-      'Disabled',
-    ].includes(label)
-  ) {
+  if (['INACTIVO', 'PENDIENTE'].includes(label)) {
     badge.css = generalCss + COLORS_BADGE.gray;
-  }
-
-  if (
-    [
-      'PERMISO',
-      'REMOTO',
-      'EXTERNO',
-      'ANIVERSARIO',
-      'CONTRATO INICIAL',
-      'HORAS DE RECUPERACIÓN',
-      'PERMISO POR HORAS',
-    ].includes(label)
-  ) {
-    badge.css = generalCss + COLORS_BADGE.teal;
-  }
-
-  if (
-    ['VACACIONES', 'MARCACIÓN EXTEMPORÁNEA', 'HORARIO REGULAR'].includes(label)
-  ) {
-    badge.css = generalCss + COLORS_BADGE.purple;
-  }
-
-  if (['EN TOLERANCIA', 'CUMPLEAÑOS', 'HORAS DE AVANCE'].includes(label)) {
-    badge.css = generalCss + COLORS_BADGE.pink;
-  }
-
-  if (
-    ['FALTA', 'CESADO', 'RECHAZADO', 'OBSERVADO', 'CON SINTOMAS'].includes(
-      label
-    )
-  ) {
-    badge.css = generalCss + COLORS_BADGE.red;
-  }
-
-  if (
-    [
-      'COMPENSACIÓN',
-      'HORAS DE COMPENSACIÓN',
-      'FERIADO',
-      'PAUSA',
-      'POR RENOVAR',
-    ].includes(label)
-  ) {
-    badge.css = generalCss + COLORS_BADGE.yellow;
-  }
-
-  if (['CADUCADO', 'FUERA DE HORARIO'].includes(label)) {
-    badge.css = generalCss + COLORS_BADGE.coral;
   }
 
   if (label == undefined) {
