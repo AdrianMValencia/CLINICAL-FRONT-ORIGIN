@@ -20,18 +20,18 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { InputSelect } from '@shared/components/reusables/input-select/input-select';
 import { InputText } from '@shared/components/reusables/input-text/input-text';
-import { Exams } from '../../services/exams';
-import { Alert } from '@shared/services/alert';
-import { ExamsByIdResponse } from '../../models/exams-response.interface';
-import {
-  CreateExamsRequest,
-  UpdateExamsRequest,
-} from '../../models/exams-request.interface';
-import { Selects } from '@shared/services/selects';
 import { SelectResponse } from '@shared/models/commons/select-response.interface';
+import { Alert } from '@shared/services/alert';
+import { Selects } from '@shared/services/selects';
+import {
+  CreatePatientRequest,
+  UpdatePatientRequest,
+} from '../../models/patient-request.interface';
+import { PatientByIdResponse } from '../../models/patient-response.interface';
+import { Patient } from '../../services/patient';
 
 @Component({
-  selector: 'app-exams-management',
+  selector: 'app-patient-management',
   imports: [
     MatFormFieldModule,
     MatInputModule,
@@ -46,61 +46,64 @@ import { SelectResponse } from '@shared/models/commons/select-response.interface
     InputText,
     InputSelect,
   ],
-  templateUrl: './exams-management.html',
+  templateUrl: './patient-management.html',
 })
-export class ExamsManagement {
+export class PatientManagement {
   private readonly fb$ = inject(FormBuilder);
-  private readonly examsService = inject(Exams);
-  readonly dialogRef = inject(MatDialogRef<ExamsManagement>);
+  private readonly patientService = inject(Patient);
+  readonly dialogRef = inject(MatDialogRef<PatientManagement>);
   private readonly alert = inject(Alert);
   private readonly selectsService = inject(Selects);
 
-  analysis$: SelectResponse[] = [];
+  documentTypes$: SelectResponse[] = [];
+  ageTypes$: SelectResponse[] = [];
+  genders$: SelectResponse[] = [];
+
   mode: 'create' | 'update';
-  submitted = false;
-  visible = false;
-  loading = false;
-  examsForm!: FormGroup;
-  examsDialog;
-  isLoadingForm = true;
+  patientForm!: FormGroup;
+  patientDialog;
 
   initForm(): void {
-    this.examsForm = this.fb$.group({
-      examId: [0, [Validators.required]],
-      name: [''],
-      analysisId: [''],
+    this.patientForm = this.fb$.group({
+      patientId: [0, [Validators.required]],
+      names: [''],
+      lastName: [''],
+      motherMaidenName: [''],
+      phone: [''],
+      typeAgeId: [''],
+      age: [''],
+      documentTypeId: [''],
+      documentNumber: [''],
+      genderId: [''],
     });
   }
-
   private createEffect = effect(() => {
-    const success = this.examsService.getExamsCreateSignal();
+    const success = this.patientService.getPatientCreateSignal();
     if (success !== null) {
-      this.loading = false;
       if (success) {
         this.swalResponse({
           isSuccess: true,
-          message: 'Examen creado correctamente',
+          message: 'Paciente creado correctamente',
         });
       } else {
-        this.swalError('Error al crear el examen');
+        this.swalError('Error al crear el paciente');
       }
-      (this.examsService as any).examsCreateSignal.set(null);
+      (this.patientService as any).patientCreateSignal.set(null);
     }
   });
 
   private updateEffect = effect(() => {
-    const success = this.examsService.getExamsUpdateSignal();
+    const success = this.patientService.getPatientUpdateSignal();
     if (success !== null) {
-      this.loading = false;
       if (success) {
         this.swalResponse({
           isSuccess: true,
-          message: 'Examen actualizado correctamente',
+          message: 'Paciente actualizado correctamente',
         });
       } else {
-        this.swalError('Error al actualizar el examen');
+        this.swalError('Error al actualizar el paciente');
       }
-      (this.examsService as any).examsUpdateSignal.set(null);
+      (this.patientService as any).patientUpdateSignal.set(null);
     }
   });
 
@@ -108,23 +111,41 @@ export class ExamsManagement {
     @Inject(MAT_DIALOG_DATA)
     public data: {
       mode: 'create' | 'update';
-      examsDetail?: ExamsByIdResponse;
+      patientsDetail?: PatientByIdResponse;
     }
   ) {
     this.mode = data.mode;
-    this.examsDialog = data.examsDetail;
+    this.patientDialog = data.patientsDetail;
     this.initForm();
     this.initMode();
   }
 
   ngOnInit(): void {
-    this.getAnalysisSelect();
+    this.getDocumentTypesSelect();
+    this.getAgeTypesSelect();
+    this.getGendersSelect();
   }
 
-  getAnalysisSelect() {
-    this.selectsService.listAnalysis().subscribe({
+  getDocumentTypesSelect() {
+    this.selectsService.listDocumentTypes().subscribe({
       next: (response) => {
-        this.analysis$ = response;
+        this.documentTypes$ = response;
+      },
+    });
+  }
+
+  getAgeTypesSelect() {
+    this.selectsService.listAgeTypes().subscribe({
+      next: (response) => {
+        this.ageTypes$ = response;
+      },
+    });
+  }
+
+  getGendersSelect() {
+    this.selectsService.listGenders().subscribe({
+      next: (response) => {
+        this.genders$ = response;
       },
     });
   }
@@ -141,58 +162,34 @@ export class ExamsManagement {
 
   initUpdateMode() {
     this.initCurrentValuesForm();
-    this.visible = false;
   }
 
   initCurrentValuesForm() {
-    const dialog = this.examsDialog;
-    this.examsForm.patchValue({ ...dialog });
+    const dialog = this.patientDialog;
+    this.patientForm.patchValue({
+      ...dialog,
+    });
   }
 
-  examsSave() {
-    this.submitted = true;
-    if (this.examsForm.valid) {
-      this.loading = true;
-      let data = this.examsForm.getRawValue();
-      this.examsSaveByMode(data);
+  patientSave() {
+    if (this.patientForm.valid) {
+      let data = this.patientForm.getRawValue();
+      this.patientSaveByMode(data);
     }
   }
 
-  examsSaveByMode(data: CreateExamsRequest | UpdateExamsRequest) {
+  patientSaveByMode(data: CreatePatientRequest | UpdatePatientRequest) {
     switch (this.mode) {
       case 'create':
-        // this.examsCreate(data as CreateExamsRequest);
-        this.examsService.examsCreate(data as CreateExamsRequest);
+        this.patientService.patientCreate(data as CreatePatientRequest);
         break;
       case 'update':
-        // this.examsUpdate(data as UpdateExamsRequest);
-        this.examsService.examsUpdate(data as UpdateExamsRequest);
+        this.patientService.patientUpdate(data as UpdatePatientRequest);
         break;
     }
   }
 
-  // examsCreate(data: CreateExamsRequest) {
-  //   this.examsService.examsCreate(data).subscribe((response) => {
-  //     if (response.isSuccess) {
-  //       this.swalResponse(response);
-  //     } else {
-  //       this.swalError(response.message);
-  //     }
-  //   });
-  // }
-
-  // examsUpdate(data: UpdateExamsRequest) {
-  //   this.examsService.examsUpdate(data).subscribe((response) => {
-  //     if (response.isSuccess) {
-  //       this.swalResponse(response);
-  //     } else {
-  //       this.swalError(response.message);
-  //     }
-  //   });
-  // }
-
   swalResponse(response: any) {
-    this.loading = false;
     if (response.isSuccess) {
       this.dialogRef.close(true);
       this.alert.success('Excelente', response.message);
@@ -210,7 +207,6 @@ export class ExamsManagement {
   }
 
   swalError(errorResponse: string) {
-    this.loading = false;
     this.alert.error('Error', errorResponse);
   }
 }

@@ -1,0 +1,66 @@
+<div class="h-screen flex flex-col px-6 py-6 gap-6 overflow-hidden">
+  <div
+    class="text-sm text-am-main-blue-dark flex items-center gap-2 font-medium mt-2"
+  >
+    <a class="hover:text-am-main-blue-light cursor-pointer">Dashboard</a>
+    <span>/</span>
+    <span class="text-am-main-blue-dark">Pacientes</span>
+  </div>
+  <div class="bg-white rounded-3xl shadow-xl p-6 flex flex-col gap-4">
+    <div class="flex items-center justify-between flex-wrap gap-4">
+      <div class="flex items-center">
+        <mat-icon
+          @scaleIn
+          class="text-xl text-am-main-blue-dark mb-1"
+          [fontIcon]="iconPatient$"
+        ></mat-icon>
+        <div
+          @fadeInRight
+          class="ml-2 text-xl font-semibold italic text-am-main-blue-dark"
+        >
+          Pacientes
+        </div>
+      </div>
+
+      <div
+        class="flex flex-wrap gap-2 items-center justify-end w-full sm:w-auto"
+      >
+        <app-search-box
+          [searchOptions]="componentPatients$.searchOptions"
+          (search)="search($event)"
+          [currentValue]="componentPatients$.filters.textFilter"
+        />
+      </div>
+    </div>
+
+    <div class="flex justify-between flex-wrap gap-4">
+      <div class="flex gap-2 flex-wrap items-end">
+        <app-split-button
+          [configButtons]="componentPatients$.filterButtons"
+          (doThisFunction)="resetButton($event)"
+        />
+      </div>
+      <div class="flex items-end">
+        <app-generic-button
+          [infoButton]="componentPatients$.actionButtonPatient"
+          (clickButton)="newPatient()"
+        />
+      </div>
+    </div>
+  </div>
+  <div
+    class="bg-white rounded-3xl shadow-xl p-6 flex flex-col gap-4 overflow-hidden mb-12"
+  >
+    <div class="h-full overflow-auto">
+      <app-list-table
+        (rowClick)="rowClick($event)"
+        (badgeClick)="onBadgeClick($event)"
+        [service]="patientService"
+        [columns]="componentPatients$.tableColumns"
+        [sortBy]="componentPatients$.initialSort"
+        [sortDir]="componentPatients$.initialSortDir"
+        [getInputs]="componentPatients$.getInputs"
+      />
+    </div>
+  </div>
+</div>

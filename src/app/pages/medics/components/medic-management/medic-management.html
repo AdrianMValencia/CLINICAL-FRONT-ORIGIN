@@ -1,0 +1,94 @@
+<form [formGroup]="medicsForm">
+  <h2 mat-dialog-title class="headline m-0 text-xl text-accent">
+    <strong class="text-am-main-blue-dark">
+      @if(data.mode == 'create') { Nuevo médico } @if (data.mode == 'update') {
+      Actualizar médico }
+    </strong>
+  </h2>
+  <mat-dialog-content>
+    <div class="grid grid-cols-1 md:grid-cols-1 gap-3 mb-4">
+      <app-input-text
+        label="Nombres"
+        [mode]="mode"
+        [required]="true"
+        placeholder="Ingrese el nombre"
+        [inputControl]="medicsForm.get('names')"
+      />
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-4">
+      <app-input-text
+        label="Apellido paterno"
+        [mode]="mode"
+        [required]="true"
+        placeholder="Ingrese el apellido paterno"
+        [inputControl]="medicsForm.get('lastName')"
+      />
+      <app-input-text
+        label="Apellido materno"
+        [mode]="mode"
+        [required]="true"
+        placeholder="Ingrese el apellido materno"
+        [inputControl]="medicsForm.get('motherMaidenName')"
+      />
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-1 gap-3 mb-4">
+      <app-input-text
+        label="Dirección"
+        [mode]="mode"
+        placeholder="Ingrese la dirección"
+        [inputControl]="medicsForm.get('address')"
+      />
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-4">
+      <app-input-text
+        label="Teléfono"
+        [mode]="mode"
+        placeholder="Ingrese el teléfono"
+        [inputControl]="medicsForm.get('phone')"
+      />
+      <app-input-date
+        label="Fecha de nacimiento"
+        placeholder="DD/MM/AAAA"
+        [mode]="mode"
+        [inputControl]="medicsForm.get('birthDate')"
+      />
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-4">
+      <app-input-select
+        label="Tipo de documento"
+        [mode]="mode"
+        placeholder="Seleccionar tipo de documento"
+        [aOptions]="documentTypes$"
+        [inputControl]="medicsForm.get('documentTypeId')"
+      />
+      <app-input-text
+        label="N° de documento"
+        [mode]="mode"
+        [required]="true"
+        placeholder="Ingrese el N° de documento"
+        [inputControl]="medicsForm.get('documentNumber')"
+      />
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-1 gap-3 mb-4">
+      <app-input-select
+        label="Especialidad"            
+        [mode]="mode"
+        placeholder="Seleccionar especialidad"
+        [aOptions]="specialties$"
+        [inputControl]="medicsForm.get('specialtyId')"
+      />
+    </div>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <button mat-button mat-dialog-close>Cancelar</button>
+    <button
+      color="purple"
+      class="bg-accent text-accent-contrast"
+      mat-button
+      (click)="medicsSave()"
+      [disabled]="medicsForm.invalid"
+    >
+      Guardar
+    </button>
+  </mat-dialog-actions>
+</form>

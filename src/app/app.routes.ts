@@ -16,6 +16,20 @@ const childrenRoutes: Routes = [
         (c) => c.ExamsList
       ),
   },
+  {
+    path: 'doctors',
+    loadComponent: () =>
+      import('./pages/medics/components/medic-list/medic-list').then(
+        (c) => c.MedicList
+      ),
+  },
+  {
+    path: 'patients',
+    loadComponent: () =>
+      import('./pages/patient/components/patient-list/patient-list').then(
+        (c) => c.PatientList
+      ),
+  },
 ];
 
 export const routes: Routes = [

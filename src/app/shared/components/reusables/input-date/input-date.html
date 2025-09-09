@@ -1,0 +1,63 @@
+<div class="text-am-purple md:text-sm text-xs" *ngIf="!isLoading && withLabel">
+  {{ label }}
+  <ng-container *ngIf="mode != 'read'">
+    <span *ngIf="required" class="text-red">*</span>
+  </ng-container>
+</div>
+
+<div
+  class="animate-pulse bg-gray-200 rounded h-5 min-w-36"
+  *ngIf="isLoading && withLabel"
+></div>
+
+<form appearance="outline" class="w-full" *ngIf="!isLoading">
+  <div
+    class="flex items-center justify-center bg-white border border-am-main-blue-light rounded-2xl overflow-hidden w-full mx-auto h-11"
+  >
+    <input
+      readonly
+      matInput
+      [matDatepicker]="pickeres"
+      [placeholder]="placeholder"
+      class="desktop border-0 h-11 ml-2 outline-none placeholder:text-secondary text-sm bg-card flex-auto"
+      autocomplete="off"
+      [formControl]="inputControl"
+      [min]="min"
+      [max]="max"
+    />
+    <mat-datepicker-toggle matSuffix [for]="pickeres"></mat-datepicker-toggle>
+    <mat-datepicker
+      [dateClass]="dateClass"
+      (opened)="onOpen()"
+      #pickeres
+      [startAt]="initDayFilter"
+    ></mat-datepicker>
+  </div>
+  <mat-error *ngIf="inputControl.hasError('matDatepickerFilter')"
+    >* Fecha no válida.</mat-error
+  >
+  <mat-error *ngIf="inputControl.hasError('required')"
+    >* Este campo es obligatorio.
+  </mat-error>
+  <mat-error *ngIf="inputControl.hasError('matDatepickerMin')"
+    >* La Fecha no puede ser menor a
+    {{ inputControl.errors.matDatepickerMin.min | date : "dd/MM/yyyy" }}.
+  </mat-error>
+  <mat-error *ngIf="inputControl.hasError('matDatepickerMax')"
+    >* La Fecha no puede ser mayor a
+    {{ inputControl.errors.matDatepickerMax.max | date : "dd/MM/yyyy" }}.
+  </mat-error>
+</form>
+
+<div style="display: none">
+  <div class="grid grid-cols-2 gap-3 p-4" #datepickerFooter>
+    <div class="flex flex-col items-center text-xs">
+      <div [class]="cssserie" style="height: 15px; width: 15px"></div>
+      {{ titleserie }}
+    </div>
+  </div>
+</div>
+<div
+  class="animate-pulse bg-gray-200 rounded h-13 mt-1 min-w-36"
+  *ngIf="isLoading"
+></div>

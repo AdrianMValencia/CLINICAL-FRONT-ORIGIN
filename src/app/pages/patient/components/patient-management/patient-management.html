@@ -1,0 +1,92 @@
+<form [formGroup]="patientForm">
+  <h2 mat-dialog-title class="headline m-0 text-xl text-accent">
+    <strong class="text-am-main-blue-dark">
+      @if(data.mode == 'create') { Nuevo paciente } @if (data.mode == 'update')
+      { Actualizar paciente }
+    </strong>
+  </h2>
+  <mat-dialog-content>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-4">
+      <app-input-text
+        label="Nombres"
+        [mode]="mode"
+        [required]="true"
+        placeholder="Ingrese el nombre"
+        [inputControl]="patientForm.get('names')"
+      />
+      <app-input-text
+        label="Apellido paterno"
+        [mode]="mode"
+        [required]="true"
+        placeholder="Ingrese el apellido paterno"
+        [inputControl]="patientForm.get('lastName')"
+      />
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-4">
+      <app-input-text
+        label="Apellido materno"
+        [mode]="mode"
+        [required]="true"
+        placeholder="Ingrese el apellido materno"
+        [inputControl]="patientForm.get('motherMaidenName')"
+      />
+      <app-input-text
+        label="Teléfono"
+        [mode]="mode"
+        placeholder="Ingrese el teléfono"
+        [inputControl]="patientForm.get('phone')"
+      />
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-4">
+      <app-input-select
+        label="Tipo de documento"
+        [mode]="mode"
+        placeholder="Seleccionar tipo de documento"
+        [aOptions]="documentTypes$"
+        [inputControl]="patientForm.get('documentTypeId')"
+      />
+      <app-input-text
+        label="N° de documento"
+        [mode]="mode"
+        placeholder="Ingrese el N° de documento"
+        [inputControl]="patientForm.get('documentNumber')"
+      />
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-4">
+      <app-input-select
+        label="Tipo de edad"
+        [mode]="mode"
+        placeholder="Seleccionar tipo de edad"
+        [aOptions]="ageTypes$"
+        [inputControl]="patientForm.get('typeAgeId')"
+      />
+      <app-input-text
+        label="Edad"
+        [mode]="mode"
+        placeholder="Ingrese la edad"
+        [inputControl]="patientForm.get('age')"
+      />
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-1 gap-3 mb-4">
+      <app-input-select
+        label="Género"
+        [mode]="mode"
+        placeholder="Seleccionar género"
+        [aOptions]="genders$"
+        [inputControl]="patientForm.get('genderId')"
+      />
+    </div>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <button mat-button mat-dialog-close>Cancelar</button>
+    <button
+      color="purple"
+      class="bg-accent text-accent-contrast"
+      mat-button
+      (click)="patientSave()"
+      [disabled]="patientForm.invalid"
+    >
+      Guardar
+    </button>
+  </mat-dialog-actions>
+</form>

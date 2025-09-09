@@ -117,7 +117,7 @@
           <div [ngClass]="column.cssProperty">
             @if (row[column.property]) {
             <p class="font-bold text-xs text-black">
-              {{ row[column.property] | date : "dd MMM YYYY" }}
+              {{ row[column.property] | date : "dd MMM yyyy" }}
             </p>
             <p class="text-xs text-am-gray">
               {{ row[column.property] | date : "EEEE" | titlecase }}
