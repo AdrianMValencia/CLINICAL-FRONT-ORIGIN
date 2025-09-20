@@ -30,6 +30,13 @@ const childrenRoutes: Routes = [
         (c) => c.PatientList
       ),
   },
+  {
+    path: 'take-exams',
+    loadComponent: () =>
+      import('./pages/take-exam/components/take-exam-list/take-exam-list').then(
+        (c) => c.TakeExamList
+      ),
+  },
 ];
 
 export const routes: Routes = [

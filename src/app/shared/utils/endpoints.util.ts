@@ -20,6 +20,7 @@ export const endpoint = {
   MEDICS_UPDATE: 'Medic/Edit',
   MEDICS_DELETE: 'Medic/Remove',
   MEDICS_CHANGE_STATE: 'Medic/ChangeState',
+  MEDICS_SELECT: 'Medic/Select',
 
   SPECIALTY_SELECT: 'Specialty/Select',
 
@@ -35,4 +36,11 @@ export const endpoint = {
   PATIENT_UPDATE: 'Patient/Edit',
   PATIENT_DELETE: 'Patient/Remove',
   PATIENT_CHANGE_STATE: 'Patient/ChangeState',
+  PATIENT_SELECT: 'Patient/Select',
+
+  LIST_TAKE_EXAM: 'TakeExam/ListTakeExam',
+  TAKE_EXAM_BY_ID: 'TakeExam/',
+  TAKE_EXAM_CREATE: 'TakeExam/Register',
+  TAKE_EXAM_UPDATE: 'TakeExam/Edit',
+  TAKE_EXAM_CHANGE_STATE: 'TakeExam/ChangeState',
 };

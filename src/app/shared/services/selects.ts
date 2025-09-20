@@ -56,4 +56,22 @@ export class Selects {
       })
     );
   }
+
+  listMedics(): Observable<SelectResponse[]> {
+    const requestUrl = `${env.api}${endpoint.MEDICS_SELECT}`;
+    return this.http.get<BaseApiResponse<SelectResponse[]>>(requestUrl).pipe(
+      map((resp) => {
+        return resp.data;
+      })
+    );
+  }
+
+  listPatients(): Observable<SelectResponse[]> {
+    const requestUrl = `${env.api}${endpoint.PATIENT_SELECT}`;
+    return this.http.get<BaseApiResponse<SelectResponse[]>>(requestUrl).pipe(
+      map((resp) => {
+        return resp.data;
+      })
+    );
+  }
 }

@@ -1,0 +1,38 @@
+<form [formGroup]="takeExamForm">
+  <h2 mat-dialog-title class="headline m-0 text-xl text-accent">
+    <strong class="text-am-main-blue-dark">
+      @if(data.mode == 'create') { Nuevo examen realizado } @if (data.mode == 'update') {
+      Actualizar examen realizado }
+    </strong>
+  </h2>
+  <mat-dialog-content>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-4">
+      <app-input-select
+        label="Pacientes"
+        [mode]="mode"
+        placeholder="Seleccionar pacientes"
+        [aOptions]="patients$"
+        [inputControl]="takeExamForm.get('patientId')"
+      />
+      <app-input-select
+        label="Médicos"
+        [mode]="mode"
+        placeholder="Seleccionar médicos"
+        [aOptions]="medics$"
+        [inputControl]="takeExamForm.get('medicId')"
+      />
+    </div>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <button mat-button mat-dialog-close>Cancelar</button>
+    <button
+      color="purple"
+      class="bg-accent text-accent-contrast"
+      mat-button
+      (click)="takeExamSave()"
+      [disabled]="takeExamForm.invalid"
+    >
+      Guardar
+    </button>
+  </mat-dialog-actions>
+</form>
