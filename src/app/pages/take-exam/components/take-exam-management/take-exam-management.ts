@@ -49,6 +49,8 @@ export class TakeExamManagement {
   takeExamForm!: FormGroup;
   takeExamDialog;
 
+  takeExamDetails: Array<{ examId: number; analysisId: number }> = [];
+
   initForm(): void {
     this.takeExamForm = this.fb$.group({
       patientId: [''],
@@ -170,9 +172,17 @@ export class TakeExamManagement {
   });
 
     takeExamSave() {
-      if (this.takeExamForm.valid) {
+      if (this.takeExamForm.valid && this.takeExamDetails.length > 0) {
         this.loading = true;
-        let data = this.takeExamForm.getRawValue();
+        const { patientId, medicId } = this.takeExamForm.getRawValue();
+        const data = {
+          patientId,
+          medicId,
+          takeExamDetails: this.takeExamDetails.map((d) => ({
+            examId: d.examId,
+            analysisId: d.analysisId,
+          })),
+        };
         this.takeExamSaveByMode(data);
       }
     }
@@ -187,6 +197,36 @@ export class TakeExamManagement {
           break;
       }
     }
+
+    
+  addExamDetail(): void {
+    const analysisId = this.takeExamForm.get('analysisId')?.value;
+    const examId = this.takeExamForm.get('examId')?.value;
+    if (analysisId && examId) {
+      // Evitar duplicados
+      const exists = this.takeExamDetails.some(
+        (d: { examId: number; analysisId: number }) => d.analysisId === analysisId && d.examId === examId
+      );
+      if (!exists) {
+        this.takeExamDetails.push({ analysisId, examId });
+        this.takeExamForm.get('examId')?.setValue('');
+      }
+    }
+  }
+
+  removeExamDetail(index: number): void {
+    this.takeExamDetails.splice(index, 1);
+  }
+
+    getAnalysisDescription(analysisId: number): string {
+    const found = this.analysis$.find((a: SelectResponse) => a.code === analysisId);
+    return found ? found.description : String(analysisId);
+  }
+
+  getExamDescription(examId: number): string {
+    const found = this.exams$.find((e: SelectResponse) => e.code === examId);
+    return found ? found.description : String(examId);
+  }
 
   swalResponse(response: any) {
     this.loading = false;

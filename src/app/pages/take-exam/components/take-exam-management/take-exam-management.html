@@ -36,7 +36,41 @@
         [inputControl]="takeExamForm.get('examId')"
         [disabled]="!takeExamForm.get('analysisId')?.value"
       />
+      <button mat-stroked-button color="primary" class="col-span-2 w-full mt-2" type="button" (click)="addExamDetail()" [disabled]="!takeExamForm.get('analysisId')?.value || !takeExamForm.get('examId')?.value">
+        Agregar examen al detalle
+      </button>
     </div>
+
+    @if (takeExamDetails.length > 0) {
+      <div class="overflow-x-auto mt-4">
+        <table class="min-w-full divide-y divide-gray-200 border rounded">
+          <thead class="bg-gray-50">
+            <tr>
+              <th class="px-4 py-2 text-left">Análisis</th>
+              <th class="px-4 py-2 text-left">Examen</th>
+              <th class="px-4 py-2"></th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (detail of takeExamDetails; track detail) {
+              <tr>
+                <td class="px-4 py-2">
+                  {{ getAnalysisDescription(detail.analysisId) }}
+                </td>
+                <td class="px-4 py-2">
+                  {{ getExamDescription(detail.examId) }}
+                </td>
+                <td class="px-4 py-2">
+                  <button mat-icon-button color="warn" (click)="removeExamDetail(takeExamDetails.indexOf(detail))">
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
   </mat-dialog-content>
   <mat-dialog-actions>
     <button mat-button mat-dialog-close>Cancelar</button>
