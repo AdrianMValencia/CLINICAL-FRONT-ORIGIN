@@ -13,6 +13,7 @@ export const endpoint = {
   EXAMS_UPDATE: 'Exam/Edit',
   EXAMS_DELETE: 'Exam/Remove',
   EXAMS_CHANGE_STATE: 'Exam/ChangeState',
+  EXAMS_SELECT_BY_ANALYSIS: 'Exam/Select/',
 
   LIST_MEDICS: 'Medic/ListMedic',
   MEDICS_BY_ID: 'Medic/',

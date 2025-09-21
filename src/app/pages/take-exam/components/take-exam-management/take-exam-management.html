@@ -21,6 +21,21 @@
         [aOptions]="medics$"
         [inputControl]="takeExamForm.get('medicId')"
       />
+      <app-input-select
+        label="Análisis"
+        [mode]="mode"
+        placeholder="Seleccionar análisis"
+        [aOptions]="analysis$"
+        [inputControl]="takeExamForm.get('analysisId')"
+      />
+      <app-input-select
+        label="Exámenes"
+        [mode]="mode"
+        placeholder="Seleccionar exámenes"
+        [aOptions]="exams$"
+        [inputControl]="takeExamForm.get('examId')"
+        [disabled]="!takeExamForm.get('analysisId')?.value"
+      />
     </div>
   </mat-dialog-content>
   <mat-dialog-actions>

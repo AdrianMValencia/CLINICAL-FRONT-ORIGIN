@@ -14,15 +14,16 @@
   <div
     class="flex items-center justify-center bg-white border border-am-main-blue-light rounded-2xl overflow-hidden w-full mx-auto h-11"
   >
-    <input
-      type="text"
-      class="desktop border-0 h-11 ml-2 outline-none placeholder:text-secondary text-sm bg-card flex-auto"
-      [placeholder]="placeholder"
-      matInput
-      [formControl]="inputControl"
-      [matAutocomplete]="optionsAutocomplete"
-      autocomplete="off"
-    />
+      <input
+        type="text"
+        class="desktop border-0 h-11 ml-2 outline-none placeholder:text-secondary text-sm bg-card flex-auto"
+        [placeholder]="placeholder"
+        matInput
+        [formControl]="inputControl"
+        [matAutocomplete]="optionsAutocomplete"
+        autocomplete="off"
+        [disabled]="disabled"
+      />
     @if (mode!= 'read') { @if (inputControl.value) {
     <button
       @scaleInOut

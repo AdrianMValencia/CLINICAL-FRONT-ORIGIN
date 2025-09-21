@@ -74,4 +74,13 @@ export class Selects {
       })
     );
   }
+
+  listExamsByAnalysisId(analysisId: number): Observable<SelectResponse[]> {
+    const requestUrl = `${env.api}${endpoint.EXAMS_SELECT_BY_ANALYSIS}${analysisId}`;
+    return this.http.get<BaseApiResponse<SelectResponse[]>>(requestUrl).pipe(
+      map((resp) => {
+        return resp.data;
+      })
+    );
+  }
 }

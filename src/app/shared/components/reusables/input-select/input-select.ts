@@ -32,6 +32,7 @@ import { map, Observable, startWith } from 'rxjs';
   animations: [scaleInOutAnimation]
 })
 export class InputSelect {
+  @Input() disabled: boolean = false;
   onOptionSelected(event: any) {
     const code = event.option.value;
     this.inputControl.setValue(code);
@@ -79,6 +80,13 @@ export class InputSelect {
       }
       if (property === 'required') {
         this.setValidators();
+      }
+      if (property === 'disabled') {
+        if (this.disabled) {
+          this.inputControl.disable({ emitEvent: false });
+        } else {
+          this.inputControl.enable({ emitEvent: false });
+        }
       }
     }
   }

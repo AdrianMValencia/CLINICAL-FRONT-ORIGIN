@@ -41,6 +41,8 @@ export class TakeExamManagement {
 
   medics$: SelectResponse[] = [];
   patients$: SelectResponse[] = [];
+  analysis$: SelectResponse[] = [];
+  exams$: SelectResponse[] = [];
   mode: 'create' | 'update';
   visible = false;
   loading = false;
@@ -51,6 +53,8 @@ export class TakeExamManagement {
     this.takeExamForm = this.fb$.group({
       patientId: [''],
       medicId: [''],
+      analysisId: [''],
+      examId: [''],
     });
   }
 
@@ -70,6 +74,30 @@ export class TakeExamManagement {
   ngOnInit(): void {
     this.getMedicsSelect();
     this.getPatientsSelect();
+    this.getAnalysisSelect();
+    this.takeExamForm.get('analysisId')?.valueChanges.subscribe((analysisId) => {
+      if (analysisId) {
+        this.getExamsByAnalysisId(analysisId);
+      } else {
+        this.exams$ = [];
+        this.takeExamForm.get('examId')?.setValue('');
+      }
+    });
+  }
+  getAnalysisSelect() {
+    this.selectsService.listAnalysis().subscribe({
+      next: (response) => {
+        this.analysis$ = response;
+      },
+    });
+  }
+
+  getExamsByAnalysisId(analysisId: number) {
+    this.selectsService.listExamsByAnalysisId(analysisId).subscribe({
+      next: (response) => {
+        this.exams$ = response;
+      },
+    });
   }
 
   getMedicsSelect() {
