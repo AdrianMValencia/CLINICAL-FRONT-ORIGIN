@@ -14,7 +14,7 @@ export function getStateBadge(label: string, tooltip?: string) {
     css: generalCss + COLORS_BADGE.main,
   };
 
-  if (['ACTIVO', 'FINALIZADO'].includes(label)) {
+  if (['ACTIVO', 'FINALIZADO', 'ENTREGADO'].includes(label)) {
     badge.css = generalCss + COLORS_BADGE.custom4;
   }
 

@@ -83,4 +83,13 @@ export class Selects {
       })
     );
   }
+
+  listTakeExamsByPatient(patientId: number): Observable<SelectResponse[]> {
+    const requestUrl = `${env.api}${endpoint.TAKE_EXAM_BY_PATIENT}${patientId}`;
+    return this.http.get<BaseApiResponse<SelectResponse[]>>(requestUrl).pipe(
+      map((resp) => {
+        return resp.data;
+      })
+    );
+  }
 }

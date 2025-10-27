@@ -37,6 +37,13 @@ const childrenRoutes: Routes = [
         (c) => c.TakeExamList
       ),
   },
+  {
+    path: 'results',
+    loadComponent: () =>
+      import('./pages/result/components/result-list/result-list').then(
+        (c) => c.ResultList
+      ),
+  }
 ];
 
 export const routes: Routes = [

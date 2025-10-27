@@ -27,7 +27,6 @@ import { CreateTakeExamRequest, UpdateTakeExamRequest } from '../../models/take-
     MatDialogClose,
     ReactiveFormsModule,
     MatIconModule,
-    InputText,
     InputSelect,
   ],
   templateUrl: './take-exam-management.html',
@@ -49,7 +48,7 @@ export class TakeExamManagement {
   takeExamForm!: FormGroup;
   takeExamDialog;
 
-  takeExamDetails: Array<{ examId: number; analysisId: number }> = [];
+  takeExamDetails: Array<{ examId: number; analysisId: number; takeExamDetailId?: number; examName?: string }> = [];
 
   initForm(): void {
     this.takeExamForm = this.fb$.group({
@@ -131,6 +130,24 @@ export class TakeExamManagement {
 
   initUpdateMode() {
     this.initCurrentValuesForm();
+    // Inicializar detalles para edición
+    if (this.takeExamDialog && this.takeExamDialog.takeExamDetails) {
+      this.takeExamDetails = this.takeExamDialog.takeExamDetails.map((d: any) => ({
+        examId: d.examId,
+        analysisId: d.analysisId,
+        takeExamDetailId: d.takeExamDetailId,
+        examName: d.examName // si existe
+      }));
+      // Seleccionar el primer análisis y examen del detalle para los selects
+      if (this.takeExamDetails.length > 0) {
+        const first = this.takeExamDetails[0];
+        this.takeExamForm.get('analysisId')?.setValue(first.analysisId);
+        this.getExamsByAnalysisId(first.analysisId);
+        setTimeout(() => {
+          this.takeExamForm.get('examId')?.setValue(first.examId);
+        }, 100);
+      }
+    }
     this.visible = false;
   }
 
@@ -175,14 +192,29 @@ export class TakeExamManagement {
       if (this.takeExamForm.valid && this.takeExamDetails.length > 0) {
         this.loading = true;
         const { patientId, medicId } = this.takeExamForm.getRawValue();
-        const data = {
-          patientId,
-          medicId,
-          takeExamDetails: this.takeExamDetails.map((d) => ({
-            examId: d.examId,
-            analysisId: d.analysisId,
-          })),
-        };
+        let data: any;
+        if (this.mode === 'update') {
+          // Para update, incluir takeExamId y takeExamDetailId
+          data = {
+            takeExamId: this.takeExamDialog?.takeExamId,
+            patientId,
+            medicId,
+            takeExamDetails: this.takeExamDetails.map((d: any) => ({
+              takeExamDetailId: d.takeExamDetailId,
+              examId: d.examId,
+              analysisId: d.analysisId,
+            })),
+          };
+        } else {
+          data = {
+            patientId,
+            medicId,
+            takeExamDetails: this.takeExamDetails.map((d: any) => ({
+              examId: d.examId,
+              analysisId: d.analysisId,
+            })),
+          };
+        }
         this.takeExamSaveByMode(data);
       }
     }
@@ -205,16 +237,26 @@ export class TakeExamManagement {
     if (analysisId && examId) {
       // Evitar duplicados
       const exists = this.takeExamDetails.some(
-        (d: { examId: number; analysisId: number }) => d.analysisId === analysisId && d.examId === examId
+        (d: any) => d.analysisId === analysisId && d.examId === examId
       );
       if (!exists) {
-        this.takeExamDetails.push({ analysisId, examId });
+        // Buscar el nombre del examen en exams$
+        const examObj = this.exams$.find((e: SelectResponse) => e.code === examId);
+        const examName = examObj ? examObj.description : undefined;
+        // Si estamos en modo update, no hay takeExamDetailId para nuevos
+        if (this.mode === 'update') {
+          this.takeExamDetails.push({ analysisId, examId, examName });
+        } else {
+          this.takeExamDetails.push({ analysisId, examId, examName });
+        }
         this.takeExamForm.get('examId')?.setValue('');
       }
     }
   }
 
   removeExamDetail(index: number): void {
+    // Si el detalle tiene takeExamDetailId y estamos en update, marcarlo para eliminar en el backend si es necesario
+    // Por ahora solo lo quitamos del array local
     this.takeExamDetails.splice(index, 1);
   }
 
@@ -223,9 +265,27 @@ export class TakeExamManagement {
     return found ? found.description : String(analysisId);
   }
 
-  getExamDescription(examId: number): string {
-    const found = this.exams$.find((e: SelectResponse) => e.code === examId);
+  getExamDescription(examId: number, analysisId?: number): string {
+    // Buscar en exams$ actual
+    let found = this.exams$.find((e: SelectResponse) => e.code === examId);
+    // Si no está, buscar en los detalles cargados (para modo update)
+    if (!found && this.takeExamDetails) {
+      // Buscar por examId y analysisId para mayor precisión
+      const detail = this.takeExamDetails.find((d: any) => d.examId === examId && (!analysisId || d.analysisId === analysisId));
+      if (detail && detail.examName) return detail.examName;
+    }
     return found ? found.description : String(examId);
+  }
+
+    // Para edición visual: seleccionar análisis y examen al hacer click en una fila
+  editExamDetail(index: number): void {
+    const detail = this.takeExamDetails[index];
+    this.takeExamForm.get('analysisId')?.setValue(detail.analysisId);
+    // Cargar exámenes para ese análisis y luego seleccionar el examen
+    this.getExamsByAnalysisId(detail.analysisId);
+    setTimeout(() => {
+      this.takeExamForm.get('examId')?.setValue(detail.examId);
+    }, 100); // Espera breve para asegurar que exams$ se actualice
   }
 
   swalResponse(response: any) {

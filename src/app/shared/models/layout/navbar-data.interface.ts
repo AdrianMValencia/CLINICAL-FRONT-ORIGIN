@@ -24,14 +24,14 @@ export const navbarData: INavbarData[] = [
     label: 'Médicos',
   },
   {
-    route: 'exams',
-    icon: 'assignment',
-    label: 'Exámenes',
-  },
-  {
     route: 'analysis',
     icon: 'troubleshoot',
     label: 'Análisis',
+  },
+  {
+    route: 'exams',
+    icon: 'assignment',
+    label: 'Exámenes',
   },
   {
     route: 'take-exams',

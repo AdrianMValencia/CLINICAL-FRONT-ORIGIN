@@ -6,7 +6,7 @@
     </strong>
   </h2>
   <mat-dialog-content>
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-4">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-4">
       <app-input-select
         label="Pacientes"
         [mode]="mode"
@@ -36,42 +36,51 @@
         [inputControl]="takeExamForm.get('examId')"
         [disabled]="!takeExamForm.get('analysisId')?.value"
       />
-      <button mat-stroked-button color="primary" class="col-span-2 w-full mt-2" type="button" (click)="addExamDetail()" [disabled]="!takeExamForm.get('analysisId')?.value || !takeExamForm.get('examId')?.value">
-        Agregar examen al detalle
-      </button>
+      <div class="col-span-2 flex justify-center mt-2">
+        <button
+          type="button"
+          (click)="addExamDetail()"
+          [disabled]="!takeExamForm.get('analysisId')?.value || !takeExamForm.get('examId')?.value"
+          class="flex h-11 items-center px-6 justify-center gap-2 bg-am-main-custom-dark rounded-xl text-white hover:bg-am-main-custom transition"
+        >
+          <mat-icon class="text-white" fontIcon="add"></mat-icon>
+          Agregar examen al detalle
+        </button>
+      </div>
     </div>
 
     @if (takeExamDetails.length > 0) {
-      <div class="overflow-x-auto mt-4">
-        <table class="min-w-full divide-y divide-gray-200 border rounded">
-          <thead class="bg-gray-50">
-            <tr>
-              <th class="px-4 py-2 text-left">Análisis</th>
-              <th class="px-4 py-2 text-left">Examen</th>
-              <th class="px-4 py-2"></th>
-            </tr>
-          </thead>
-          <tbody>
-            @for (detail of takeExamDetails; track detail) {
+      <div class="overflow-x-auto mt-4 mb-16">
+        <table class="w-full bg-white rounded-3xl">
+            <thead class="bg-am-main-blue-dark text-xs uppercase text-white">
               <tr>
-                <td class="px-4 py-2">
-                  {{ getAnalysisDescription(detail.analysisId) }}
-                </td>
-                <td class="px-4 py-2">
-                  {{ getExamDescription(detail.examId) }}
-                </td>
-                <td class="px-4 py-2">
-                  <button mat-icon-button color="warn" (click)="removeExamDetail(takeExamDetails.indexOf(detail))">
-                    <mat-icon>delete</mat-icon>
-                  </button>
-                </td>
+                <th class="px-4 py-3 text-left font-semibold rounded-tl-3xl">Análisis</th>
+                <th class="px-4 py-3 text-left font-semibold">Examen</th>
+                <th class="px-4 py-3 text-center font-semibold w-24 rounded-tr-3xl">Acciones</th>
               </tr>
-            }
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              @for (detail of takeExamDetails; track detail) {
+                <tr class="border-b border-gray-100 last:border-b-0 hover:bg-am-main-blue-light/10 transition">
+                  <td class="px-3 py-1.5 align-middle">{{ getAnalysisDescription(detail.analysisId) }}</td>
+                  <td class="px-3 py-1.5 align-middle">{{ getExamDescription(detail.examId, detail.analysisId) }}</td>
+                  <td class="px-3 py-1.5 pr-10 text-center align-middle">
+                    <button
+                      class="rounded-full h-9 w-9 flex items-center justify-center text-am-new-red-dark bg-am-new-red-light border-am-new-red-dark transition shadow"
+                      matTooltip="Eliminar"
+                      (click)="removeExamDetail(takeExamDetails.indexOf(detail))"
+                    >
+                      <mat-icon class="flex justify-center items-center w-fit rounded-full " fontIcon="delete"></mat-icon>
+                    </button>
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
       </div>
     }
-  </mat-dialog-content>
+    </mat-dialog-content>
+
   <mat-dialog-actions>
     <button mat-button mat-dialog-close>Cancelar</button>
     <button

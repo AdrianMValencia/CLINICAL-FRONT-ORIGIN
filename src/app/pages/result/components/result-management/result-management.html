@@ -1,0 +1,45 @@
+<form [formGroup]="resultForm">
+  <h2 mat-dialog-title class="headline m-0 text-xl text-accent">
+    <strong class="text-am-main-blue-dark">
+      @if(data.mode == 'create') { Nuevo resultado } @if (data.mode == 'update') {
+      Actualizar resultado }
+    </strong>
+  </h2>
+  <mat-dialog-content>
+    <div class="grid grid-cols-1 md:grid-cols-1 gap-3 mb-4">
+      <app-input-select label="Pacientes" [mode]="mode" placeholder="Seleccionar pacientes" [aOptions]="patients$"
+        [inputControl]="resultForm.get('patientId')" />
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-1 gap-3 mb-4">
+      <app-input-select label="Exámenes realizados por paciente" [mode]="mode" placeholder="Seleccionar examenes"
+        [aOptions]="takeExamsByPatient$" [inputControl]="resultForm.get('takeExamId')" />
+    </div>
+    <div class="my-4">
+      <h3 class="text-base font-semibold mb-2">Detalle de análisis realizados por el paciente</h3>
+      @if(loadingExams) {
+      <div class="text-sm text-gray-500">Cargando...</div>
+      }
+      @if(takeExamDetails$.length > 0) {
+      <table class="w-full rounded-xl overflow-hidden shadow-sm">
+        <thead>
+          <tr class="bg-am-main-blue-dark text-white">
+            <th class="py-2 px-4 text-left">#</th>
+            <th class="py-2 px-4 text-left">Análisis</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (takeExamDetail of takeExamDetails$; track takeExamDetail.takeExamDetailId) {
+          <tr class="bg-white border-b last:border-b-0">
+            <td class="py-2 px-4">{{ takeExamDetail.takeExamDetailId }}</td>
+            <td class="py-2 px-4">{{ takeExamDetail.analysis }}</td>
+          </tr>
+          }
+        </tbody>
+      </table>
+      }
+      @else {
+      <div class="text-sm text-gray-400">No hay análisis previos para este paciente.</div>
+      }
+    </div>
+  </mat-dialog-content>
+</form>

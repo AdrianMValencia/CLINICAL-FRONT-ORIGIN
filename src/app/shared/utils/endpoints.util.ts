@@ -44,4 +44,11 @@ export const endpoint = {
   TAKE_EXAM_CREATE: 'TakeExam/Register',
   TAKE_EXAM_UPDATE: 'TakeExam/Edit',
   TAKE_EXAM_CHANGE_STATE: 'TakeExam/ChangeState',
+  TAKE_EXAM_BY_PATIENT: 'TakeExam/ByPatient/',
+  TAKE_EXAM_DETAILS_BY_TAKE_EXAM: 'TakeExam/TakeExamDetails/',
+
+  LIST_RESULTS: 'Result/ListResults',
+  RESULT_BY_ID: 'Result/',
+  RESULT_CREATE: 'Result/Register',
+  RESULT_UPDATE: 'Result/Edit',
 };
